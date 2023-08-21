@@ -1,0 +1,10 @@
+<h2>LogIn Page</h2>
+<div th:if="${param.error}">Invalid username and password.</div>
+<div th:if="${param.logout}">You have been logged out.</div>
+<form th:action="@{/login}" method="POST">
+    <label>Username:</label >
+    <input type="text" name="username" /><br>
+    <label >Password:</label >
+    <input type="password" name="password" /><br>
+    <input type="submit" value="LogIn" />
+</form>
