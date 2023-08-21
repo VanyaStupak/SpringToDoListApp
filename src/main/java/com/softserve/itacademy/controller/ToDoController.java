@@ -6,6 +6,8 @@ import com.softserve.itacademy.model.User;
 import com.softserve.itacademy.service.TaskService;
 import com.softserve.itacademy.service.ToDoService;
 import com.softserve.itacademy.service.UserService;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -60,6 +62,7 @@ public class ToDoController {
         return "todo-tasks";
     }
 
+    @PreAuthorize("#ownerId == authentication.principal.id")
     @GetMapping("/{todo_id}/update/users/{owner_id}")
     public String update(@PathVariable("todo_id") long todoId, @PathVariable("owner_id") long ownerId, Model model) {
         ToDo todo = todoService.readById(todoId);
@@ -67,6 +70,7 @@ public class ToDoController {
         return "update-todo";
     }
 
+    @PostAuthorize("#ownerId == authentication.principal.id")
     @PostMapping("/{todo_id}/update/users/{owner_id}")
     public String update(@PathVariable("todo_id") long todoId, @PathVariable("owner_id") long ownerId,
                          @Validated @ModelAttribute("todo") ToDo todo, BindingResult result) {
@@ -81,6 +85,7 @@ public class ToDoController {
         return "redirect:/todos/all/users/" + ownerId;
     }
 
+    @PreAuthorize("#ownerId == authentication.principal.id")
     @GetMapping("/{todo_id}/delete/users/{owner_id}")
     public String delete(@PathVariable("todo_id") long todoId, @PathVariable("owner_id") long ownerId) {
         todoService.delete(todoId);
