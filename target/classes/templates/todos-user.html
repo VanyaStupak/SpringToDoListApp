@@ -8,6 +8,18 @@
 <body>
 <div th:replace="header"></div>
 <div class="col-md-offset-2 col-sm-8">
+    <div style="margin-top: 20px;">
+        Hello <a th:href="@{/users/__${user.id}__/read}" th:text="${user.firstName}"/>!
+    </div>
+    <div style="text-align: right; margin-top: 10px;">
+        <a href="/logout" class="btn btn-danger">Log Out</a>
+    </div>
+<!--    <div style="text-align: right; margin-top: 10px;">-->
+<!--        <a href="/logout" class="btn btn-danger">Log Out</a>-->
+<!--    </div>-->
+<!--    <div style="margin-top: 20px;">-->
+<!--        Hello <a th:href="@{/users/__${user.id}__/read}" th:text="${user.firstName}"/>!-->
+<!--    </div>-->
     <h2 th:text="${'All ToDo Lists of ' + user.firstName + ' ' + user.lastName}"/>
     <form th:action="@{|/todos/create/users/${user.id}|}" method="get">
         <div align="right">
