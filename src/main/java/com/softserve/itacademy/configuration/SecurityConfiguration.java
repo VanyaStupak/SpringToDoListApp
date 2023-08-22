@@ -1,5 +1,6 @@
 package com.softserve.itacademy.configuration;
 
+import com.softserve.itacademy.exception.WebAccessDeniedHandler;
 import com.softserve.itacademy.security.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,10 +23,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final WebAccessDeniedHandler webAccessDeniedHandler;
 
-    public SecurityConfiguration(PasswordEncoder passwordEncoder, UserDetailsServiceImpl userDetailsServiceImpl) {
+
+    public SecurityConfiguration(PasswordEncoder passwordEncoder, UserDetailsServiceImpl userDetailsServiceImpl, WebAccessDeniedHandler webAccessDeniedHandler) {
         this.passwordEncoder = passwordEncoder;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
+        this.webAccessDeniedHandler = webAccessDeniedHandler;
     }
 
     @Override
@@ -52,7 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/login-form")
                 .and()
-                .exceptionHandling().accessDeniedPage("/403");
+                .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler);
 
     }
 
